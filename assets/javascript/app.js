@@ -8,7 +8,9 @@ var Game = {
     "startGame":false,
     "pushComplete":false,
     "questionSelFalg":false,
+    "questionEvalFlag":false,
     "pastQuestions": [],
+    "intervalId":0,
     "rightAns":0,
     "wrongAns":0,
     "score":0,
@@ -19,9 +21,6 @@ var Game = {
         {"text":"my color","RA":"black", "WA":["red","blue","white"]}
         
     ],
-    "evalContfunc": function() {
-
-    },
     "questionPush": function() {
         if (!this.pushComplete) {
             $(Game.questionVals).each(function(index, element) {
@@ -50,7 +49,81 @@ var Game = {
                     flag = true;
                 } 
             } while (!flag);
+            this.setTimer(30);
+            this.questionSelFalg = true;
+            this.questionEvalFlag = false;
         }
-    }
+    },
+    "questionEval": function(answer) {
+        ;
+        if(this.pushComplete && this.questionSelFalg && !this.questionEvalFlag && this.pastQuestions[this.pastQuestions.length-1].rightAnswers==answer) {
+            console.log("Right");
+            this.rightAns++;
+            //show Right answer function
+        } else {
+            this.wrongAns++;
+            console.log("Wrong, the Right answer is: "+console.log(this.pastQuestions[this.pastQuestions.length-1].rightAnswers));
+            //Show wrong answer function
+        }
+        this.score = Math.round(((this.rightAns / (this.rightAns+this.wrongAns))*100));
+        this.stop();
+        //finishEval function
+        this.finishEvalFunc();
+        this.questionSelFalg = false;
+        this.questionEvalFlag = true;
+        
+    },
+    "setTimer": function(val) {
+        var number = val;
+
+        function run() {
+            Game.intervalId = setInterval(decrement, 1000);
+        }
+
+        function decrement() {
+            number--;
+            console.log(number);
+            if (number === 0 && Game.questionSelFalg) {
+                console.log("Time finished: show wrong answer");
+                Game.stop();
+                Game.finishEvalFunc();
+                Game.questionSelFalg = false;
+                Game.questionEvalFlag = true;
+                
+            } else if (number === 0 && Game.questionEvalFlag) {
+                Game.stop();
+                Game.continueFunc();
+            }
+        }
+        
+        run()
+    },
+    
+    "stop": function() {
+        clearInterval(Game.intervalId);
+    },
+    "finishEvalFunc": function() {
+        if (this.pushComplete && this.questionSelFalg && this.pastQuestions.length == this.questionArr.length) {
+            console.log("finish your score is: "+this.score+"%");
+            //FinishFunc
+        } else {
+            console.log("Continue");
+            Game.setTimer(20);
+            //Show Dom
+        }
+        
+    }, 
+    "finishFunc": function() {
+        //dom modification
+    },
+    "continueFunc": function() {
+        Game.stop();
+        this.randomQuestionSelect();
+    },
+    "showRightAnsw": function() {
+        //dom modification
+    },
+
+
 
 };

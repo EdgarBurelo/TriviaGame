@@ -55,22 +55,23 @@ var Game = {
         }
     },
     "questionEval": function(answer) {
-        ;
-        if(this.pushComplete && this.questionSelFalg && !this.questionEvalFlag && this.pastQuestions[this.pastQuestions.length-1].rightAnswers==answer) {
-            console.log("Right");
-            this.rightAns++;
-            //show Right answer function
-        } else {
-            this.wrongAns++;
-            console.log("Wrong, the Right answer is: "+console.log(this.pastQuestions[this.pastQuestions.length-1].rightAnswers));
-            //Show wrong answer function
+        
+        if(this.pushComplete && this.questionSelFalg && !this.questionEvalFlag){
+            if(this.pastQuestions[this.pastQuestions.length-1].rightAnswers==answer) {
+                console.log("Right");
+                this.rightAns++;
+                //show Right answer function
+            } else {
+                this.wrongAns++;
+                console.log("Wrong, the Right answer is: "+console.log(this.pastQuestions[this.pastQuestions.length-1].rightAnswers));
+                //Show wrong answer function
+            }
+            this.score = Math.round(((this.rightAns / (this.rightAns+this.wrongAns))*100));
+            this.stop();
+            this.finishEvalFunc();
+            this.questionSelFalg = false;
+            this.questionEvalFlag = true;
         }
-        this.score = Math.round(((this.rightAns / (this.rightAns+this.wrongAns))*100));
-        this.stop();
-        //finishEval function
-        this.finishEvalFunc();
-        this.questionSelFalg = false;
-        this.questionEvalFlag = true;
         
     },
     "setTimer": function(val) {

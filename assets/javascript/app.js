@@ -86,6 +86,7 @@ var Game = {
             console.log(number);
             if (number === 0 && Game.questionSelFalg) {
                 console.log("Time finished: show wrong answer");
+                this.wrongAns++;
                 Game.stop();
                 Game.finishEvalFunc();
                 Game.questionSelFalg = false;
@@ -124,7 +125,48 @@ var Game = {
     "showRightAnsw": function() {
         //dom modification
     },
+    "startButton": function() {
+        var target = $(".holder")
+        var button = $("<div>")
+        button.attr("class", "col-sm-10 offset-sm-1 col-lg-4 offset-lg-4 button align");
+        button.attr("id", "btn");
+        var span = $("<span>");
+        span.text("Start");
+        span.attr("class", "button");
+        button.append(span);
+        target.append(button);
+        $(document).delegate('#btn','click',function(event){
+            //console.log(event);
+            Game.questionPush();
+            Game.randomQuestionSelect();
+            Game.questionDomGen();
+        });
 
+    },
+    "questionDomGen": function() {
+        var randArr = [];
+        var ansArr = Game.pastQuestions[Game.pastQuestions.length-1].wrongAnswers;
+        ansArr.push(Game.pastQuestions[Game.pastQuestions.length-1].rightAnswers);
+        console.log(ansArr);
 
+        for(var i = 0; i < 4; i++) {
+            
+            do {
+                var flag1 = false;
+                var rand = Math.floor(Math.random() * 4);
+                var select = ansArr[rand];
+                
+                if (randArr.indexOf(select) == -1) {
+                    randArr.push(select);
+                    flag1 = true;
+                } 
+            } while (!flag1);
+        }
+        console.log(randArr);
+    }
 
 };
+$(document).ready(function() { 
+    Game.startButton();
+});
+//$(".cont").css("min-height", )

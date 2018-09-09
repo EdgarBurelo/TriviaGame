@@ -82,8 +82,11 @@ var Game = {
         }
 
         function decrement() {
+            $("#timerT").html(number);
             number--;
+            //$("#timerT").html(number);
             console.log(number);
+
             if (number === 0 && Game.questionSelFalg) {
                 console.log("Time finished: show wrong answer");
                 this.wrongAns++;
@@ -144,13 +147,20 @@ var Game = {
 
     },
     "questionDomGen": function() {
+        var target = $(".holder");
+        target.empty();
+        var quesHolText = $("<div>");
+        quesHolText.attr("class", "col-sm-10 offset-sm-1 col-lg-12 offset-lg-0 align");
+        var quesText = $("<h5>");
+        quesText.text(Game.pastQuestions[Game.pastQuestions.length - 1].questionText);
         var randArr = [];
         var ansArr = Game.pastQuestions[Game.pastQuestions.length-1].wrongAnswers;
         ansArr.push(Game.pastQuestions[Game.pastQuestions.length-1].rightAnswers);
         console.log(ansArr);
+        quesHolText.append(quesText);
+        target.append(quesHolText);
 
         for(var i = 0; i < 4; i++) {
-            
             do {
                 var flag1 = false;
                 var rand = Math.floor(Math.random() * 4);
@@ -161,11 +171,20 @@ var Game = {
                     flag1 = true;
                 } 
             } while (!flag1);
+            var ansHolText = $("<div>");
+            ansHolText.attr("class","col-sm-10 offset-sm-1 col-lg-4 offset-lg-4 button align");
+            var ansText = $("span");
+            ansText.attr("class","button");
+            randArr[i]
+
         }
+
+        
         console.log(randArr);
     }
 
 };
+
 $(document).ready(function() { 
     Game.startButton();
 });

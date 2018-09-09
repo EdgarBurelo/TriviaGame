@@ -113,6 +113,19 @@ var Game = {
     "finishEvalFunc": function() {
         if (this.pushComplete && this.questionSelFalg && this.pastQuestions.length == this.questionArr.length) {
             console.log("finish your score is: "+this.score+"%");
+            var target = $(".holder");
+            var button = $("<div>");
+            button.attr("class", "col-sm-10 offset-sm-1 col-lg-4 offset-lg-4 buttonC align");
+            button.attr("id", "btn2");
+            var span = $("<span>");
+            span.text("Finish!");
+            span.attr("class", "buttonC");
+            button.append(span);
+            target.append(button);
+            $(document).delegate('#btn2','click',function(event){
+                console.log("finish");
+                Game.finishFunc();
+            });
             //FinishFunc
         } else {
             console.log("Continue");
@@ -136,7 +149,22 @@ var Game = {
         
     }, 
     "finishFunc": function() {
-        //dom modification
+        var target = $(".holder");
+        target.empty();
+        var finishHol = $("<div>");
+        finishHol.attr("class", "col-sm-10 offset-sm-1 col-lg-8 offset-lg-2 align alert alert-dark");
+        
+        var scoreH = $("<h5>");
+        scoreH.text("Score: "+Game.score);
+        var rightAnsH = $("<h5>");
+        rightAnsH.text("Right Answers: "+Game.rightAns);
+        var wrongAnsH = $("<h5>");
+        wrongAnsH.text("Wrong Answers: "+Game.wrongAns);
+
+        finishHol.append(scoreH);
+        finishHol.append(rightAnsH);
+        finishHol.append(wrongAnsH);
+        target.append(finishHol);
     },
     "continueFunc": function() {
         Game.stop();
@@ -230,4 +258,3 @@ var Game = {
 $(document).ready(function() { 
     Game.startButton();
 });
-//$(".cont").css("min-height", )

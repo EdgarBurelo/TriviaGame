@@ -61,10 +61,13 @@ var Game = {
                 console.log("Right");
                 this.rightAns++;
                 //show Right answer function
+                this.showRightAnsw();
+                
             } else {
                 this.wrongAns++;
                 console.log("Wrong, the Right answer is: "+console.log(this.pastQuestions[this.pastQuestions.length-1].rightAnswers));
                 //Show wrong answer function
+                this.showWrongAns();
             }
             this.score = Math.round(((this.rightAns / (this.rightAns+this.wrongAns))*100));
             this.stop();
@@ -115,6 +118,20 @@ var Game = {
             console.log("Continue");
             Game.setTimer(20);
             //Show Dom
+            var target = $(".holder");
+            var button = $("<div>");
+            button.attr("class", "col-sm-10 offset-sm-1 col-lg-4 offset-lg-4 buttonC align");
+            button.attr("id", "btn1");
+            var span = $("<span>");
+            span.text("Continue!");
+            span.attr("class", "buttonC");
+            button.append(span);
+            target.append(button);
+            $(document).delegate('#btn1','click',function(event){
+                //console.log(event);
+                Game.continueFunc();
+            });
+
         }
         
     }, 
@@ -124,13 +141,32 @@ var Game = {
     "continueFunc": function() {
         Game.stop();
         this.randomQuestionSelect();
+        this.questionDomGen();
+
     },
     "showRightAnsw": function() {
-        //dom modification
+        var target = $(".holder");
+        target.empty();
+        var wrongAnsHol = $("<div>");
+        wrongAnsHol.attr("class", "col-sm-10 offset-sm-1 col-lg-8 offset-lg-2 align alert alert-success");
+        var wrongAnsText = $("<h3>");
+        wrongAnsText.text(Game.pastQuestions[Game.pastQuestions.length-1].rightAnswers+" is the right answer!");
+        wrongAnsHol.append(wrongAnsText);
+        target.append(wrongAnsHol);    
+    },
+    "showWrongAns": function() {
+        var target = $(".holder");
+        target.empty();
+        var wrongAnsHol = $("<div>");
+        wrongAnsHol.attr("class", "col-sm-10 offset-sm-1 col-lg-8 offset-lg-2 align alert alert-danger");
+        var wrongAnsText = $("<h3>");
+        wrongAnsText.text("Wrong, the right answer is: "+ Game.pastQuestions[Game.pastQuestions.length-1].rightAnswers);
+        wrongAnsHol.append(wrongAnsText);
+        target.append(wrongAnsHol);
     },
     "startButton": function() {
-        var target = $(".holder")
-        var button = $("<div>")
+        var target = $(".holder");
+        var button = $("<div>");
         button.attr("class", "col-sm-10 offset-sm-1 col-lg-4 offset-lg-4 button align");
         button.attr("id", "btn");
         var span = $("<span>");
@@ -147,8 +183,8 @@ var Game = {
 
     },
     "questionDomGen": function() {
-        var target = $(".holder");
-        target.empty();
+        var target1 = $(".holder");
+        target1.empty();
         var quesHolText = $("<div>");
         quesHolText.attr("class", "col-sm-10 offset-sm-1 col-lg-12 offset-lg-0 align");
         var quesText = $("<h5>");
@@ -158,7 +194,7 @@ var Game = {
         ansArr.push(Game.pastQuestions[Game.pastQuestions.length-1].rightAnswers);
         console.log(ansArr);
         quesHolText.append(quesText);
-        target.append(quesHolText);
+        target1.append(quesHolText);
 
         for(var i = 0; i < 4; i++) {
             do {
@@ -173,12 +209,18 @@ var Game = {
             } while (!flag1);
             var ansHolText = $("<div>");
             ansHolText.attr("class","col-sm-10 offset-sm-1 col-lg-4 offset-lg-4 button align");
-            var ansText = $("span");
+            var ansText = $("<span>");
             ansText.attr("class","button");
-            randArr[i]
-
+            ansText.text(randArr[i]);
+            ansHolText.append(ansText);
+            target1.append(ansHolText);
         }
-
+        $(document).delegate('.button','click',function(event){
+            //console.log(event);
+            console.log(event.target.lastChild.innerHTML);
+            var usrAns = event.target.lastChild.innerHTML;
+            Game.questionEval(usrAns);
+        });
         
         console.log(randArr);
     }

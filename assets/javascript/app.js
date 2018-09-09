@@ -85,15 +85,16 @@ var Game = {
         }
 
         function decrement() {
-            $("#timerT").html(number);
             number--;
+            $("#timerT").html(number);
             //$("#timerT").html(number);
             console.log(number);
 
             if (number === 0 && Game.questionSelFalg) {
                 console.log("Time finished: show wrong answer");
-                this.wrongAns++;
+                Game.wrongAns++;
                 Game.stop();
+                Game.showWrongAns();
                 Game.finishEvalFunc();
                 Game.questionSelFalg = false;
                 Game.questionEvalFlag = true;
@@ -140,7 +141,7 @@ var Game = {
             span.attr("class", "buttonC");
             button.append(span);
             target.append(button);
-            $(document).delegate('#btn1','click',function(event){
+            $("#btn1").on('click',function(event){
                 //console.log(event);
                 Game.continueFunc();
             });

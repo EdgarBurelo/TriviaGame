@@ -16,9 +16,17 @@ var Game = {
     "score":0,
     "questionArr": [],
     "questionVals":[
-        {"text":"my name","RA":"Edgar", "WA":["pepe","Juan","Carlos"]},
-        {"text":"my age","RA":"27", "WA":["28","29","26"]},
-        {"text":"my color","RA":"black", "WA":["red","blue","white"]}
+        {"text":"What is the capital of Mozambique","RA":"maputo", "WA":["matola","nampula","beira"]},
+        {"text":"What is the capital of Australia","RA":"Canberra", "WA":["Perth","Sydney","Melbourne"]},
+        {"text":"What is the capital of Liberia","RA":"monrovia", "WA":["harper","kakata","gbarnga"]},
+        {"text":"What is the capital of Gabon","RA":"Libreville", "WA":["Franceville","Moanda","Oyem"]},
+        {"text":"What is the capital of Taiwan","RA":"Taipei", "WA":["Tianan city","Taichung","Kaohsiung City"]},
+        {"text":"What is the capital of Belgium","RA":"Brussels", "WA":["Ghent","Antwerp","Bruges"]},
+        {"text":"What is the capital of Sierra Leone","RA":"Freetown", "WA":["Koidu","Bo","Kenema"]},
+        {"text":"What is the capital of Serbia","RA":"Belgrade", "WA":["Zenum","Novi Sad","Nis"]},
+        {"text":"What is the capital of Chile","RA":"Santiago", "WA":["Valdivia","Valparaiso","Concepcion"]},
+        {"text":"What is the capital of Mexico","RA":"Ciudad de Mexico", "WA":["Guadalajara","Monterrey","Tijuana"]}
+        //{"text":"What is the capital of ...","RA":"", "WA":["","",""]},
         
     ],
     "questionPush": function() {
@@ -69,7 +77,7 @@ var Game = {
                 //Show wrong answer function
                 this.showWrongAns();
             }
-            this.score = Math.round(((this.rightAns / (this.rightAns+this.wrongAns))*100));
+           
             this.stop();
             this.finishEvalFunc();
             this.questionSelFalg = false;
@@ -113,6 +121,7 @@ var Game = {
     },
     "finishEvalFunc": function() {
         if (this.pushComplete && this.questionSelFalg && this.pastQuestions.length == this.questionArr.length) {
+            this.score = Math.round(((this.rightAns / (this.rightAns+this.wrongAns))*100));
             console.log("finish your score is: "+this.score+"%");
             var target = $(".holder");
             var button = $("<div>");
@@ -238,16 +247,16 @@ var Game = {
             } while (!flag1);
             var ansHolText = $("<div>");
             ansHolText.attr("class","col-sm-10 offset-sm-1 col-lg-4 offset-lg-4 button align");
-            var ansText = $("<span>");
-            ansText.attr("class","button");
-            ansText.text(randArr[i]);
-            ansHolText.append(ansText);
+            //var ansText = $("<span>");
+            //ansText.attr("class","button");
+            ansHolText.text(randArr[i]);
+            //ansHolText.append(ansText);
             target1.append(ansHolText);
         }
         $(document).delegate('.button','click',function(event){
-            //console.log(event);
-            console.log(event.target.lastChild.innerHTML);
-            var usrAns = event.target.lastChild.innerHTML;
+            console.log(event);
+            console.log(event.target.innerText);
+            var usrAns = event.target.innerText;
             Game.questionEval(usrAns);
         });
         

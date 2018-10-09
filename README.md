@@ -1,7 +1,7 @@
 # TriviaGame (Capitals of the world)
 
 Can you Guess right the different capitals of the world? Test your knowledge and see how many you can get right. 
-Link: https://edgarburelo.github.io/TriviaGame/
+<br>Link: <a href="https://edgarburelo.github.io/TriviaGame/" target="_blank">Trivia Game"</a>
 
 # Instructions
 First click on the start button, this will show the question, display the different options and start the 30 timmer. 
